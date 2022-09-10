@@ -1,0 +1,93 @@
+import processing.serial.*;
+import cc.arduino.*;
+Arduino arduino;
+
+void setup(){
+ size(400, 400);
+ arduino = new Arduino(this, Arduino.list()[1], 57600); //change the [0] to a [1] or [2] etc. if your program doesn't work
+}
+
+int x = (int)1;
+int y = (int)0;
+
+void draw(){
+//background
+ background(#86C1DE);
+ fill(#E8DC5B);
+ strokeWeight(0);
+//Sun
+ int sunL = arduino.analogRead(1);
+ int sunR = arduino.analogRead(6);
+ if(sunL > 0){
+   if(y < 400){
+      y+=5;
+      System.out.println(sunL);
+   }
+ }
+ if(sunR > 0){
+   if(y > 0){
+      y-=5;
+      System.out.println(sunR);
+   }
+ }
+ ellipse(y, 20, 100, 100);
+ strokeWeight(1);
+ noStroke();
+ ellipse(-400, 30, 80, 100);
+ strokeWeight(1);
+ //legs
+  fill(#8DB978);
+  stroke(0, 0, 0);
+  ellipse(230, 255, 30, 50);
+  ellipse(160, 255, 30, 50);
+//tail
+ stroke(0, 0, 0);
+ fill(#8DB978);
+ triangle(100, 215, 140, 215, 135, 195);
+//body
+ stroke(0, 0, 0);
+  fill(#8DB978);
+ ellipse(200, 200, 150, 100);
+//neck
+  noStroke();
+ ellipse(275, 200, 60, 50);
+ stroke(0, 0, 0);
+//shell
+ strokeWeight(2);
+ fill(#A58058);
+ ellipse(200, 190, 150, 85);
+ strokeWeight(1);
+//legs
+  fill(#8DB978);
+ ellipse(250, 255, 30, 50);
+ ellipse(180, 255, 30, 50);
+//head
+  noStroke();
+ fill(#8DB978);
+ ellipse(310, 170, 75, 65);
+  stroke(0, 0, 0);
+//floor
+ fill(#74BC8E);
+ rect(0, 275, 400, 150);
+//eyes
+ int light = arduino.analogRead(5);
+ if (light < 10){
+   if(x > 0){
+    x=0;
+   }
+ } else {
+     if(light >= 10){
+    x=1; 
+     }
+   }
+   System.out.println(light);
+ System.out.println(light);
+ fill(355, 355, 355);
+ ellipse(310, 160, 10, 20*x);
+ fill(#050505);
+ ellipse(310, 160, 5, 15*x);
+//mouth
+strokeWeight(2);
+noFill();
+arc(330, 180, 40, 20, 1, PI);
+}
